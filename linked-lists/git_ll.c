@@ -8,7 +8,7 @@ commit_t * create_commit(char *, char *, char *, commit_t *);
 commit_t * delete_commit(commit_t *, commit_t *);
 int main (int argc, char* argv[]) {
   //variable declaration and definition + malloc of the commit variables
-  //commit_t * commit_0 = create_commit("Robber", "I will break your stuff", "6/3/24", (commit_t *)NULL);
+  commit_t * commit_0 = create_commit("Robber", "I will break your stuff", "6/3/24", (commit_t *)NULL);
   commit_t * commit_1 = create_commit("Bob", "first commit", "6/4/24", (commit_t *)NULL);
   create_commit("Jane","I am pushing something","6/4/24", commit_1);
   create_commit("Louis", "Hi I'm Louis! :)", "6/5/24", commit_1);
@@ -18,7 +18,7 @@ int main (int argc, char* argv[]) {
     fprintf(stdout, "User:%s, Message:%s, Date:%s\n",head -> user, head -> message, head -> date);
   }
   // test delete_commit method works for bad input
-  commit_t * commit_2 = NULL;//delete_commit(commit_1, commit_0);
+  commit_t * commit_2 = delete_commit(commit_1, commit_0);
   if (commit_2 == NULL) {
     fprintf(stdout, "delete commit works when the commit to be deleted is not in the linked list\n");
   }
@@ -34,14 +34,13 @@ int main (int argc, char* argv[]) {
   else {
     fprintf(stdout, "delete commit DOES NOT work when the commit to be deleted is in the linked list\n");
   }
-  
   return 0;
 }//main()
 
 commit_t * create_commit(char * user, char* message, char * date, commit_t * head) {
   //variable declaration/definition
   commit_t * commit = NULL;
-  commit_t * head_phder = head;
+  commit_t * iterator = head;
   // assertions to check if the data inputter are valid
   assert(user);
   assert(message);
@@ -61,13 +60,12 @@ commit_t * create_commit(char * user, char* message, char * date, commit_t * hea
     head = commit;
   }
   else {
-    fprintf(stdout, "next ptr:%p", head_phder -> next);
-    while (head -> next != NULL) {
-      head = head -> next;
+    while (iterator -> next != NULL) {
+      iterator = iterator -> next;
     }
-    head -> next = commit;
+    iterator -> next = commit;
   }
-  return head_phder;
+  return head;
 }//create_commit()
 
 commit_t * delete_commit(commit_t * head, commit_t * commit) {
